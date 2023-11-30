@@ -14,9 +14,11 @@ namespace WebApplication2
             //database iþlemleri için servis tanýmlamasý ve connection stringi yazdýk cs json dosyasý içinde.
             builder.Services.AddDbContext<DataBaseContext>(opts =>
             {
-                opts.UseSqlServer("Server:localhost;Database:WebApplication2DB;Trusted_Connecttion=true");
+                opts.UseSqlServer("server=localhost;database=WebApplication2DB;Trusted_Connection=True;MultipleActiveResultSets=true");
+                
             });
-
+            //"server=localhost;database=WebApp;Trusted_Connection=True;MultipleActiveResultSets=true"
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
