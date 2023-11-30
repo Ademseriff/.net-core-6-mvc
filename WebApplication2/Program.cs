@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using static WebApplication2.Entities.User;
 
@@ -17,6 +19,13 @@ namespace WebApplication2
                 opts.UseSqlServer("server=localhost;database=WebApplication2DB;Trusted_Connection=True;MultipleActiveResultSets=true");
                 
             });
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opts =>
+            {
+                opts.Cookie.Name = "webapplication.auth";
+                opts.ExpireTimeSpan = TimeSpan.FromDays(1);
+                opts.LoginPath = "/Account/Login";
+                opts.LogoutPath = "/Account/Logout";
+            });
             //"server=localhost;database=WebApp;Trusted_Connection=True;MultipleActiveResultSets=true"
             
             var app = builder.Build();
@@ -30,6 +39,7 @@ namespace WebApplication2
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

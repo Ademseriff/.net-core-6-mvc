@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NETCore.Encrypt.Extensions;
+using System.Security.Claims;
 using WebApplication2.Entities;
 using WebApplication2.Models;
 using static WebApplication2.Entities.User;
@@ -39,6 +42,14 @@ namespace WebApplication2.Controllers
                         ModelState.AddModelError(model.Username, "this acount is locked");
                         return View();
                     }
+                    List<Claim> claims = new List<Claim>();
+                    claims.Add(new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()));
+                    claims.Add(new Claim(ClaimTypes.Name,user.Fullname ?? string.Empty));
+                    claims.Add(new Claim("Username", user.Username));
+                    ClaimsIdentity identity = new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
+                    ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                    return RedirectToAction("Index", "Home");
 
                 }
                 else
