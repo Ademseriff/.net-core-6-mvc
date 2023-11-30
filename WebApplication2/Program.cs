@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using static WebApplication2.Entities.User;
+
 namespace WebApplication2
 {
     public class Program
@@ -8,6 +11,11 @@ namespace WebApplication2
 
             // Add services to the container.
             builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            //database iþlemleri için servis tanýmlamasý ve connection stringi yazdýk cs json dosyasý içinde.
+            builder.Services.AddDbContext<DataBaseContext>(opts =>
+            {
+                opts.UseSqlServer("Server:localhost;Database:WebApplication2DB;Trusted_Connecttion=true");
+            });
 
             var app = builder.Build();
 
