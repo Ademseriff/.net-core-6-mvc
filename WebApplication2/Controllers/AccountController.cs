@@ -65,6 +65,12 @@ namespace WebApplication2.Controllers
             return View();
         }
 
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction(nameof(Login));
+        }
+
         public IActionResult Register()
         {
             return View();
