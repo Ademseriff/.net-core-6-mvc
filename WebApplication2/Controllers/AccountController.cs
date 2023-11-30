@@ -18,15 +18,27 @@ namespace WebApplication2.Controllers
             }
             return View(model);
         }
+        public IActionResult Profile()
+        {
+            return View();
+        }
 
         public IActionResult Register()
         {
             return View();
         }
-
-        public IActionResult Profile()
+        [HttpPost]
+        public IActionResult Register(RegisterViewModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                // login işlemleri
+            }
+            return View(model);
+
+           
         }
+
+
     }
 }
