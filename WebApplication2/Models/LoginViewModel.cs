@@ -2,6 +2,7 @@
 
 namespace WebApplication2.Models
 {
+    //validation rules
     public class LoginViewModel
     {
         [Required(ErrorMessage ="user name is required")]
