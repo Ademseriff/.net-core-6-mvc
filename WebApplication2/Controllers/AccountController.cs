@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NETCore.Encrypt.Extensions;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using WebApplication2.Entities;
 using WebApplication2.Models;
@@ -63,7 +64,30 @@ namespace WebApplication2.Controllers
         }
         public IActionResult Profile()
         {
+
+            Guid userid = new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            User user = _dataBaseContext.Users.FirstOrDefault(x => x.Id == userid);
+
+            ViewData["FullName"] = user.Fullname;
+
             return View();
+        }
+        [HttpPost]
+        public IActionResult ProfileChangeFullName([Required][StringLength(50)]string? fullname)//gelen parametreyede validation girebiliriz.
+        {
+            if (ModelState.IsValid)
+            {
+
+                Guid userid = new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                User user = _dataBaseContext.Users.FirstOrDefault(x => x.Id == userid);
+
+                user.Fullname = fullname;
+                _dataBaseContext.SaveChanges();
+                return RedirectToAction(nameof(Profile));
+
+
+            }
+            return View("Profile");
         }
 
         public IActionResult Logout()
