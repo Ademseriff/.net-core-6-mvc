@@ -25,6 +25,7 @@ namespace WebApplication2
                 opts.ExpireTimeSpan = TimeSpan.FromDays(1);
                 opts.LoginPath = "/Account/Login";
                 opts.LogoutPath = "/Account/Logout";
+                opts.AccessDeniedPath = "/Home/AccessDenied";
             });
             //"server=localhost;database=WebApp;Trusted_Connection=True;MultipleActiveResultSets=true"
             

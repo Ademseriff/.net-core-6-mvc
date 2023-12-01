@@ -21,6 +21,11 @@ namespace WebApplication2.Entities
 
         public DateTime Createdtime { get; set; } = DateTime.Now;
 
+        //rol tanımlaması yapıyoruz 
+        [Required]
+        [StringLength(20)]
+        public string Role { get; set; } = "user";
+
 
     }
 }
